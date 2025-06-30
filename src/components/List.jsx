@@ -1,10 +1,9 @@
 import React from 'react';
-import Item from './Item'; //Importa componente hijo
+import Item from './Item';
 
 function List({ items, deleteItem, editItem }) {
   return (
-    <ul>
-    {/*Itera sobre los ítems y renderiza uno por cada uno*/}
+    <ul className="item-list">
       {items.map((item) => (
         <Item
           key={item.id}

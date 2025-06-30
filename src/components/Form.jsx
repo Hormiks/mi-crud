@@ -1,44 +1,35 @@
-import React, { useState, useEffect } from 'react'; //Importa React y hooks
+import React, { useState, useEffect } from 'react';
 
 function Form({ addOrUpdateItem, itemToEdit }) {
-    //Estado para controlar el valor del input
-  const [inputValue, setInputValue] = useState('');
-  const [nombre, setNombre]=useState("");
-  const [asignatura, setAsignatura]=useState("");
-  const [promedio, setPromedio]=useState("");
-  const [error, setError]=useState("");
+  const [nombre, setNombre] = useState('');
+  const [asignatura, setAsignatura] = useState('');
+  const [promedio, setPromedio] = useState('');
+  const [error, setError] = useState('');
 
-
-  //Efecto que se ejecuta cuando el ítem a editar cambia 
   useEffect(() => {
     if (itemToEdit) {
-        //Si hay un ítem para editar, carga su valor en el input
-      setInputValue(itemToEdit.value);
       setNombre(itemToEdit.nombre);
       setAsignatura(itemToEdit.asignatura);
       setPromedio(itemToEdit.promedio);
-      setError(itemToEdit.error);
     } else {
-        //Si no hay ítem para editar, limpia el input
-      setInputValue('');       // SE BORRA ??????????????????????????????
+      setNombre('');
+      setAsignatura('');
+      setPromedio('');
     }
   }, [itemToEdit]);
 
-  const calApreciacion=(promedio)=>{
-    
+  const calApreciacion = (promedio) => {
     const p = parseFloat(promedio);
     if (p >= 6.5) return "Destacado";
     if (p >= 5.6) return "Buen trabajo";
     if (p >= 4.0) return "Con mejora";
     return "Deficiente";
-
   };
 
-  //Manejador del evento de envío del formulario
   const handleSubmit = (e) => {
-    e.preventDefault(); //Previene recarga de la página
+    e.preventDefault();
     if (!nombre || !asignatura || promedio === "") {
-      setError("Cada campo es obligatorios");
+      setError("Cada campo es obligatorio");
       return;
     }
 
@@ -46,6 +37,7 @@ function Form({ addOrUpdateItem, itemToEdit }) {
       setError("El promedio debe ser un número entre 1.0 y 7.0");
       return;
     }
+
     setError("");
 
     const nuevaApreciacion = calApreciacion(promedio);
@@ -60,45 +52,70 @@ function Form({ addOrUpdateItem, itemToEdit }) {
     setAsignatura("");
     setPromedio("");
   };
-    
 
+  const labelStyle = {
+    fontWeight: '600',
+    fontSize: '15px',
+    color: '#1f2937',
+    marginBottom: '-8px',
+    marginTop: '10px',
+    textAlign: 'left'
+  };
 
   return (
-    <>
-    <h2 style={{ 
-      textAlign: 'center', 
-      marginBottom: '20px', 
-      background: '#fff', 
-      padding: '10px 20px', 
-      borderRadius: '12px', 
-      boxShadow: '0 2px 8px rgba(0,0,0,0.08)' 
+    <form onSubmit={handleSubmit} style={{
+      backgroundColor: "#fff",
+      padding: "25px",
+      borderRadius: "12px",
+      boxShadow: "0 4px 10px rgba(0, 0, 0, 0.08)",
+      maxWidth: "500px",
+      width: "100%",
+      margin: "0 auto 40px auto",
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '15px'
     }}>
-      {itemToEdit ? "Editar Evaluación" : "Agregar Nueva Evaluación"}
-    </h2>
-    <form onSubmit={handleSubmit}>
+      <h2 style={{
+        textAlign: 'center',
+        color: '#1f2937',
+        marginBottom: '10px'
+      }}>
+        {itemToEdit ? "Editar Evaluación" : "Agregar Nueva Evaluación"}
+      </h2>
+      <label style={labelStyle}>Nombre del Alumno:</label>
       <input
         type="text"
-        placeholder="Nombre del Alumno"
+        placeholder="Ej: Juan Pérez"
         value={nombre}
-        onChange={(e) => setNombre(e.target.value)} //Actualiza el estado al escribir
+        onChange={(e) => setNombre(e.target.value)}
       />
+      <label style={labelStyle}>Asignatura:</label>
       <input
         type="text"
-        placeholder="Asignatura"
+        placeholder="Ej: Matemáticas"
         value={asignatura}
         onChange={(e) => setAsignatura(e.target.value)}
       />
+      <label style={labelStyle}>Promedio (0.0 - 7.0):</label>
       <input
         type="number"
         step="0.1"
-        placeholder="Promedio (1.0 a 7.0)"
+        placeholder="Ej: 5.5"
         value={promedio}
         onChange={(e) => setPromedio(e.target.value)}
       />
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">{itemToEdit ? 'Actualizar' : 'Agregar'}</button> {/*Texto del botón según si se edita o agrega*/}
+      <button type="submit" style={{
+        backgroundColor: '#2563eb',
+        color: 'white',
+        padding: '12px',
+        border: 'none',
+        borderRadius: '8px',
+        fontWeight: 'bold'
+      }}>
+        {itemToEdit ? 'Actualizar Evaluación' : 'Agregar Evaluación'}
+      </button>
     </form>
-    </>
   );
 }
 
