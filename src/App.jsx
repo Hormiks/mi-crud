@@ -8,9 +8,12 @@ function App() {
   const [itemToEdit, setItemToEdit] = useState(null);
 
   useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem('items')) || [];
+  const storedItems = JSON.parse(localStorage.getItem('items'));
+  if (Array.isArray(storedItems) && storedItems.length > 0) {
     setItems(storedItems);
+  }
   }, []);
+
 
   useEffect(() => {
     localStorage.setItem('items', JSON.stringify(items));
