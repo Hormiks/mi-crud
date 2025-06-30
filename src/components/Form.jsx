@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; //Importa React y hooks
 
 function Form({ addOrUpdateItem, itemToEdit }) {
   const [nombre, setNombre] = useState('');
@@ -6,13 +6,14 @@ function Form({ addOrUpdateItem, itemToEdit }) {
   const [promedio, setPromedio] = useState('');
   const [error, setError] = useState('');
 
+  //Efecto que se ejecuta cuando el ítem a editar cambia 
   useEffect(() => {
     if (itemToEdit) {
-      setNombre(itemToEdit.nombre);
+      setNombre(itemToEdit.nombre); //Si hay un ítem para editar, carga su valor en el input
       setAsignatura(itemToEdit.asignatura);
       setPromedio(itemToEdit.promedio);
     } else {
-      setNombre('');
+      setNombre(''); //Si no hay ítem para editar, limpia el input
       setAsignatura('');
       setPromedio('');
     }
@@ -27,7 +28,7 @@ function Form({ addOrUpdateItem, itemToEdit }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); //Previene recarga de la página
     if (!nombre || !asignatura || promedio === "") {
       setError("Cada campo es obligatorio");
       return;
@@ -48,7 +49,7 @@ function Form({ addOrUpdateItem, itemToEdit }) {
       apreciacion: nuevaApreciacion,
     });
 
-    setNombre("");
+    setNombre(""); //Limpia el campo
     setAsignatura("");
     setPromedio("");
   };
@@ -85,24 +86,25 @@ function Form({ addOrUpdateItem, itemToEdit }) {
       <label style={labelStyle}>Nombre del Alumno:</label>
       <input
         type="text"
-        placeholder="Ej: Juan Pérez"
+        placeholder="Ej: Daniela Romero"
         value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
+        onChange={(e) => setNombre(e.target.value)} //Actualiza el estado al escribir
+
       />
       <label style={labelStyle}>Asignatura:</label>
       <input
         type="text"
-        placeholder="Ej: Matemáticas"
+        placeholder="Ej: Prog. frontEnd"
         value={asignatura}
-        onChange={(e) => setAsignatura(e.target.value)}
+        onChange={(e) => setAsignatura(e.target.value)} //Actualiza el estado al escribir
       />
       <label style={labelStyle}>Promedio (0.0 - 7.0):</label>
       <input
         type="number"
         step="0.1"
-        placeholder="Ej: 5.5"
+        placeholder="Ej: 6.5"
         value={promedio}
-        onChange={(e) => setPromedio(e.target.value)}
+        onChange={(e) => setPromedio(e.target.value)} //Actualiza el estado al escribir
       />
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <button type="submit" style={{
